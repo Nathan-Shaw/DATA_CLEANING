@@ -1,0 +1,35 @@
+import os
+import pandas as pd
+import numpy as np
+import matplotlib as plt
+
+# Check current directory to navigate to needed file(s)
+current_directory = os.getcwd()
+print("Current Directory:", current_directory)
+
+# Check which files are in the current directory
+files_needed = os.listdir(current_directory)
+print(files_needed)
+
+# Load file(s) to clean
+df = pd.read_csv('FILE_NAME_HERE.csv')
+print(df.head(10))
+
+# Remove unwanted columns
+# Add column name to list 'columns_removed'
+columns_removed = ['COLUMN_1', 'COLUMN_2', 'COLUMN_3', 'AND_MORE...']
+df = df.drop(columns=columns_removed)
+
+# Add an 'id' column at the front
+df.insert(0,'id', range(1, len(df)+1))
+
+# Remove 'NaN' in given columns
+df['COLUMN_NAME'] = df['COLUMN_NAME'].fillna('')
+
+# Check data is clean
+print(df.head(10), df.dtypes)
+
+# Save file with new name
+file_name = 'ORIGINAL_FILE_NAME.csv' 
+clean_file = os.path.splitext(file_name)[0] + '_CLEAN.csv'
+df.to_csv(clean_file, index=False)
